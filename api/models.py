@@ -11,7 +11,9 @@ class Post(models.Model):
     title = models.CharField(max_length=200, blank=False)
     body = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
-    likes = models.PositiveIntegerField(default=0)
+    users_who_liked = models.ManyToManyField(
+        User, related_name='liked_posts'
+    )
 
     def __str__(self):
         return self.title
