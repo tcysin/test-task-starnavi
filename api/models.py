@@ -29,3 +29,6 @@ class Like(models.Model):
             models.UniqueConstraint(
                 fields=('user', 'post'), name='unique_like')
         ]
+    
+    def __str__(self):
+        return f'{self.user} likes {self.post}'

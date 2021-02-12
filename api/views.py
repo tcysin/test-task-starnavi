@@ -1,11 +1,14 @@
+from datetime import date
+
 from django.http import Http404
+from django.db.models import Count
 from rest_framework import permissions
 from rest_framework import status
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Post
+from .models import Post, Like
 from .permissions import IsOwnerOrReadOnly
 from .serializers import PostSerializer
 
@@ -113,6 +116,39 @@ def unlike(request, pk):
         post.users_who_liked.remove(request.user)
 
         return Response({f'message': f'Unliked the post {pk}'})
+
+
+@api_view(['GET'])
+@permission_classes([permissions.IsAuthenticated])
+def analytics(request):
+    """Return count of likes aggregated by day from start to end dates."""
+
+    # extract and clean start/end dates from GET request kwargs
+    start_date = request.GET.get('start_date')
+    end_date = request.GET.get('end_date')
+
+    try:
+        start_date = date.fromisoformat(start_date)
+        end_date = date.fromisoformat(end_date)
+    except:
+        return Response(
+            {'message': 'Invalid start/end dates. Make sure to follow ISO format'},
+            status=status.HTTP_400_BAD_REQUEST)
+
+    # query the data, group by date liked and return the counts
+    in_range = Like.objects.filter(date_liked__range=(start_date, end_date))
+    in_range = in_range.values('date_liked')
+    qs = in_range.annotate(count=Count('date_liked'))
+    data = {
+        D['date_liked'].isoformat(): D['count']
+        for D in qs
+    }
+
+    return Response(data)
+
+
+        
+    
 
 
 

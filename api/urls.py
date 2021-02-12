@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.urlpatterns import format_suffix_patterns
-from . import views
+from . import views, converters
 
 urlpatterns = [
     # auth and registration
@@ -13,6 +13,8 @@ urlpatterns = [
     path('posts/<int:pk>/', views.PostDetail.as_view()),
     path('posts/<int:pk>/like/', views.like),
     path('posts/<int:pk>/unlike/', views.unlike),
+
+    path('analytics/', views.analytics),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
