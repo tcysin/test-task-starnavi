@@ -130,3 +130,6 @@ dmypy.json
 
 # VSCode stuff
 .vscode/
+
+# My stuff
+temp.txt
