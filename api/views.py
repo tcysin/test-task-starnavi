@@ -1,6 +1,7 @@
 from django.http import Http404
 from rest_framework import permissions
 from rest_framework import status
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -70,5 +71,49 @@ class PostDetail(APIView):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-# TODO: user signup
-# TODO: user login
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def like(request, pk):
+    """Add a user to those who liked the post.
+    
+    Only authenticated users are able to like a post.
+    """
+
+    if request.method == 'POST':
+        # query the post in question
+        try:
+            post = Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        # add a user to the list of those who liked this post
+        # won't duplicate the relationship
+        post.users_who_liked.add(request.user)
+
+        return Response({'message': f'Liked the post {pk}'})
+
+@api_view(['POST'])
+@permission_classes([permissions.IsAuthenticated])
+def unlike(request, pk):
+    """Remove a user from those who liked the post.
+    
+    Only authenticated users are able to unlike a post.
+    """
+
+    if request.method == 'POST':
+        # query the post in question
+        try:
+            post = Post.objects.get(pk=pk)
+        except Post.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        # add a user to the list of those who liked this post
+        # won't duplicate the relationship
+        post.users_who_liked.remove(request.user)
+
+        return Response({f'message': f'Unliked the post {pk}'})
+
+
+
+    
