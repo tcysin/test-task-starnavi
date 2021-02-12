@@ -37,8 +37,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # third-party apps
     'rest_framework',
+    'rest_framework.authtoken',
+    'dj_rest_auth',  # auth
+    'allauth',  # registration
+    'allauth.account',
+    'allauth.socialaccount',
+    'dj_rest_auth.registration',
     # my apps
     'api',
 ]
@@ -122,3 +129,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+# Custom stuff
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
+SITE_ID = 1
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
