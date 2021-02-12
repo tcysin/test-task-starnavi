@@ -13,7 +13,6 @@ urlpatterns = [
     path('posts/<int:pk>/', views.PostDetail.as_view()),
     path('posts/<int:pk>/like/', views.like),
     path('posts/<int:pk>/unlike/', views.unlike),
-
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

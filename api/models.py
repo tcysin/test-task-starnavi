@@ -12,7 +12,20 @@ class Post(models.Model):
     body = models.TextField(blank=True)
     created = models.DateTimeField(auto_now_add=True)
     users_who_liked = models.ManyToManyField(
-        User, related_name='liked_posts', blank=True)
+        User, through='Like', related_name='liked_posts', blank=True)
 
     def __str__(self):
         return self.title
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    date_liked = models.DateField(auto_now_add=True)
+
+    class Meta:
+        constraints = [
+            # a user may like a given post only once
+            models.UniqueConstraint(
+                fields=('user', 'post'), name='unique_like')
+        ]
