@@ -5,13 +5,14 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .models import Post
+from .permissions import IsOwnerOrReadOnly
 from .serializers import PostSerializer
 
 
 class PostList(APIView):
     """List all posts, or create a new post.
     
-    * Only authenticated users are able to create a post.
+    Only authenticated users are able to create a post.
     """
 
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
@@ -38,10 +39,11 @@ class PostList(APIView):
 class PostDetail(APIView):
     """Retrieve, update or delete a post instance.
     
-    * Only authenticated users are able to update or delete a post.
+    Only authenticated authors are able to update or delete their post.
     """
 
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [
+        permissions.IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
 
     def get_object(self, pk):
         try:
