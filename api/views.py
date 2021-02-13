@@ -126,13 +126,18 @@ def analytics(request):
     # extract and clean start/end dates from GET request kwargs
     start_date = request.GET.get('start_date')
     end_date = request.GET.get('end_date')
-
+    # validation
     try:
         start_date = date.fromisoformat(start_date)
         end_date = date.fromisoformat(end_date)
     except:
         return Response(
-            {'message': 'Invalid start/end dates. Make sure to follow ISO format'},
+            {'message':
+                'Invalid start/end dates. Make sure to follow ISO format.'},
+            status=status.HTTP_400_BAD_REQUEST)
+    if not (start_date <= end_date):
+        return Response(
+            {'message': 'start_date must precede end_date.'},
             status=status.HTTP_400_BAD_REQUEST)
 
     # query the data, group by date liked and return the counts
