@@ -14,6 +14,11 @@ $ cd test-task-starnavi
 $ pip install -r requirements.txt
 ```
 
+Apply database migrations:
+```console
+$ python3 manage.py migrate
+```
+
 Run the tests with `python3 manage.py test` to make sure everything is working:
 ```console
 $ python3 manage.py test
