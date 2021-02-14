@@ -26,12 +26,12 @@ Authorization: Token 9944b09199c62bcf9418ad846dd0e4bbdfc6ee4b
 ```
 
 ### Posts
-- `api/posts/` handles listing of *Post* and their creation.
-    - **GET** returns JSON response with a list of all posts, where each has the fields `'id', 'author', 'title', 'body', 'created', 'users_who_liked'`.
+- `api/posts/` handles listing of posts and their creation.
+    - **GET** returns JSON response with a list of all posts, where each element has the fields `'id', 'author', 'title', 'body', 'created', 'users_who_liked'`.
     - **POST** requires the field `title`. Optional field is `body`. Creates a new post.
-- `api/posts/<id>/` handles listing and editing of a particular instance of a *Post*.
-    - **GET** returns detailed information about a particular *Post*. Same fields as in `api/posts/` GET request.
-    - **PUT** updates the `title` and/or `body` of a *Post*.
+- `api/posts/<id>/` handles listing and editing of a particular instance of a post.
+    - **GET** returns detailed information about a post. Same fields as in `api/posts/` GET request.
+    - **PUT** updates the `title` and/or `body` of a post.
     - **DELETE** deletes a post.
 - `api/posts/<id>/like/` adds a user who made **POST** request to the set of users who liked the *Post*.
 - `api/posts/<id>/unlike/` removes a user who made **POST** request from the set of users who liked the *Post*.
