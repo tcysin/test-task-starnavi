@@ -5,23 +5,23 @@ Simple REST API for StarNavi test task. Created with Django.
 # Installation
 Download the repository with `git clone`:
 ```console
-$ git clone https://github.com/tcysin/test-task-starnavi
+git clone https://github.com/tcysin/test-task-starnavi
 ```
 
 Then, navigate inside the fetched `test-task-starnavi/` folder and run `pip install -r requirements.txt` to take care of dependencides:
 ```console
-$ cd test-task-starnavi
-$ pip install -r requirements.txt
+cd test-task-starnavi
+pip install -r requirements.txt
 ```
 
 Apply database migrations:
 ```console
-$ python3 manage.py migrate
+python3 manage.py migrate
 ```
 
 Run the tests with `python3 manage.py test` to make sure everything is working:
 ```console
-$ python3 manage.py test
+python3 manage.py test
 ```
 
 
